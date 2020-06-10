@@ -1,0 +1,146 @@
+﻿@using DirectoryTree.Models
+@model IEnumerable<VwMaterialsClasses>
+
+@helper BuildMenu(IEnumerable<VwMaterialsClasses> data, int? ParentId = null)
+{
+    var items = data.Where(d => d.ParentId == ParentId).Where(x => x.Id != 6072).Where(y => y.Id != 8805);
+    if (items.Any())
+    {
+            <ul class="Container">
+            @foreach (var item in items)
+            {
+                if (item.Children.Count > 0)
+                {
+                        <li class="Node ExpandClosed">
+                            <div class="Expand"></div>
+                            <div class="Content"><a href="/Material/Items/@item.Id">@item.Name</a></div>
+                            @BuildMenu(data, item.Id)
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="Node ExpandLeaf">
+                            <div class="Expand"></div>
+                            <div class="Content"><a href="/Material/Items/@item.Id">@item.Name</a></div>
+                            @BuildMenu(data, item.Id)
+                        </li>
+                    }
+                }
+            </ul>
+    }
+}
+<script type="text/javascript">
+    function tree_toggle(event) {
+        event = event || window.event
+        var clickedElem = event.target || event.srcElement
+
+        if (!hasClass(clickedElem, 'Expand')) {
+            return // клик не там
+        }
+
+        // Node, на который кликнули
+        var node = clickedElem.parentNode
+        if (hasClass(node, 'ExpandLeaf')) {
+            return // клик на листе
+        }
+
+        // определить новый класс для узла
+        var newClass = hasClass(node, 'ExpandOpen') ? 'ExpandClosed' : 'ExpandOpen'
+        // заменить текущий класс на newClass
+        // регексп находит отдельно стоящий open|close и меняет на newClass
+        var re = /(^|\s)(ExpandOpen|ExpandClosed)(\s|$)/
+        node.className = node.className.replace(re, '$1' + newClass + '$3')
+    }
+
+    function hasClass(elem, className) {
+        return new RegExp("(^|\\s)" + className + "(\\s|$)").test(elem.className)
+    }
+</script>
+<style type="text/css">
+    .Container {
+        padding: 0;
+        margin: 0;
+    }
+
+        .Container li {
+            list-style-type: none;
+        }
+    /* indent for all tree children excepts root */
+    .Node {
+        background-image: url('../../Content/treeicon/i.gif');
+        background-position: top left;
+        background-repeat: repeat-y;
+        margin-left: 18px;
+        zoom: 1;
+    }
+
+    .IsRoot {
+        margin-left: 0;
+    }
+    /* left vertical line (grid) for all nodes */
+    .IsLast {
+        background-image: url('../../Content/treeicon/i_half.gif');
+        background-repeat: no-repeat;
+    }
+
+    .ExpandOpen .Expand {
+        background-image: url('../../Content/treeicon/expand_minus.gif');
+    }
+    /* closed is higher priority than open */
+    .ExpandClosed .Expand {
+        background-image: url('../../Content/treeicon/expand_plus.gif');
+    }
+
+    /* highest priority */
+    .ExpandLeaf .Expand {
+        background-image: url('../../Content/treeicon/expand_leaf.gif');
+    }
+
+    .Content {
+        min-height: 18px;
+        margin-left: 18px;
+    }
+
+    * html .Content {
+        height: 18px;
+    }
+
+    .Expand {
+        width: 18px;
+        height: 18px;
+        float: left;
+    }
+
+    .ExpandOpen .Container {
+        display: block;
+    }
+
+    .ExpandClosed .Container {
+        display: none;
+    }
+
+    .ExpandOpen .Expand, .ExpandClosed .Expand {
+        cursor: pointer;
+    }
+
+    .ExpandLeaf .Expand {
+        cursor: auto;
+    }
+</style>
+
+<div onclick="tree_toggle(arguments[0])">
+    <ul class="Container">
+        <li class="Node IsRoot IsLast ExpandClosed">
+            <div class="Expand"></div>
+            <div class="Content">Меню каталогов</div>
+            @BuildMenu(Model)
+        </li>
+    </ul>
+</div>
+@*<div>
+        <ul class="tree" id="tree">
+            @BuildMenu(Model)
+        </ul>
+    </div>*@
+
+

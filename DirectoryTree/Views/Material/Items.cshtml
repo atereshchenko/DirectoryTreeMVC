@@ -1,0 +1,73 @@
+﻿@model IEnumerable<DirectoryTree.Models.New.Materials>
+@{
+    ViewBag.Title = "Список материалов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "order": [[2, "asc"]],
+            "displayLength": 25,
+            "language": {
+                "url": "/Content/js/RussianDataTables.json"
+            }
+        });
+    });
+</script>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-4">
+                <h1>Список материалов</h1>
+            </div>            
+            <div class="col-sm-8">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("TreeView", "Material")">Дерево Каталогов</a></li>
+                    <li class="breadcrumb-item">Каталог материалов</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewBag.Message</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover" id="example1">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">№</th>
+                                <th style="width: 70px;">№ ОЗМ</th>                              
+                                <th>Наименование</th>
+                                <th style="width: 250px;">Тип/марка/чертеж</th>
+                                <th style="width:150px">Код произ.</th>
+                                <th style="width: 250px;">Нормативный док.</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var materials in Model)
+                            {
+                                <tr>
+                                    <td>@materials.Id</td>
+                                    <td>@materials.NumberOZM</td>
+                                    <td><a href="/Material/Item/@materials.Id">@materials.Name</a></td>
+                                    <td>@materials.Mark</td>
+                                    <td>@materials.NumberMaker</td>                                   
+                                    <td>@materials.NormDoc</td>                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

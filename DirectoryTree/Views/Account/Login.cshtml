@@ -1,0 +1,64 @@
+﻿@model DirectoryTree.Models.LoginModel
+@{
+    ViewBag.Title = "Авторизация";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Каталог материалов | Авторизация</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Content/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/css/ionicons.min.css" rel="stylesheet" />
+    <link href="~/Content/css/icheck-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/Content/css/site.css" rel="stylesheet" />
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <!--<a href="@Url.Action("Index", "Home")"><b>Каталог</b> материалов</a>-->
+            <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/NLMK_engineering.png" class="img-fluid" width="250px" /></a>
+            <!--<a href="@Url.Action("Index", "Home")"><b>Каталог</b> материалов</a>-->
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Авторизация</p>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+                    <div class="input-group mb-3">
+                        @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control", @placeholder = "Логин" } })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Пароль" } })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #00a3cb; border-color: #00a3cb;">Войти</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/js/adminlte.min.js"></script>
+</body>
+</html>

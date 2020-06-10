@@ -1,0 +1,19 @@
+﻿@using DirectoryTree.Models.New
+@model IEnumerable<Materials>
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+@foreach (Materials materials in Model)
+{
+    <tr>
+        <td>@materials.Id</td>
+        <td>@materials.NumberOZM</td>
+        <td><a href="/Material/Item/@materials.Id">@materials.Name</a></td>
+        <td>@materials.Mark</td>
+        
+                
+        <td>@materials.NumberMaker</td>
+        <td>@materials.NormDoc</td>
+    </tr>
+}
